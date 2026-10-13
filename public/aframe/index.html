@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Museo Escolar de la Memoria | Escena A-Frame</title>
+    <!-- Script de A-Frame desde CDN -->
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        background: #101728;
+        font-family: Arial, sans-serif;
+      }
+
+      .project-label {
+        position: fixed;
+        z-index: 2;
+        top: 16px;
+        left: 16px;
+        max-width: 320px;
+        padding: 12px 14px;
+        background: rgba(16, 23, 40, 0.88);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      .project-label strong {
+        display: block;
+        color: #d9a63d;
+        margin-bottom: 4px;
+      }
+
+      .video-control {
+        position: fixed;
+        z-index: 2;
+        left: 16px;
+        bottom: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        background: #df604b;
+        color: #ffffff;
+        cursor: pointer;
+        padding: 11px 15px;
+        font: 700 11px/1 Arial, sans-serif;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .video-control:hover {
+        background: #bc4435;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="project-label">
+      <strong>Escena A-Frame · Historia colombiana</strong>
+      Arrastra para mirar y usa las teclas W A S D para moverte por la escena.
+    </div>
+
+    <button class="video-control" id="video-control" type="button">Reproducir video</button>
+
+    <a-scene>
+      <a-assets>
+        <video
+          id="historia-colombiana"
+          src="./assets/videos/historia-colombiana.mp4"
+          preload="metadata"
+          playsinline
+          webkit-playsinline
+        ></video>
+
+        <!-- Activa estas líneas cuando existan los modelos:
+        <a-asset-item id="objeto-01" src="/models/objeto-01.glb"></a-asset-item>
+        <a-asset-item id="objeto-02" src="/models/objeto-02.glb"></a-asset-item>
+        -->
+      </a-assets>
+
+      <!-- Código base suministrado para la escena -->
+      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
+      <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
+      <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
+      <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
+      <a-sky color="#ECECEC"></a-sky>
+
+      <!-- Pantalla para el video adjunto -->
+      <a-video
+        id="pantalla-historia"
+        src="#historia-colombiana"
+        position="0 3.5 -8"
+        width="5.4"
+        height="3.04"
+      ></a-video>
+      <a-plane position="0 3.5 -8.03" width="5.75" height="3.39" color="#172036"></a-plane>
+      <a-text
+        value="HISTORIA COLOMBIANA"
+        align="center"
+        color="#172036"
+        width="5"
+        position="0 5.45 -8"
+      ></a-text>
+    </a-scene>
+
+    <script>
+      const video = document.querySelector("#historia-colombiana");
+      const control = document.querySelector("#video-control");
+      const screen = document.querySelector("#pantalla-historia");
+
+      function toggleVideo() {
+        if (video.paused) {
+          video.play();
+          control.textContent = "Pausar video";
+        } else {
+          video.pause();
+          control.textContent = "Reproducir video";
+        }
+      }
+
+      control.addEventListener("click", toggleVideo);
+      screen.addEventListener("click", toggleVideo);
+      video.addEventListener("ended", () => {
+        control.textContent = "Reproducir de nuevo";
+      });
+    </script>
+  </body>
+</html>
